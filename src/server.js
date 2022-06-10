@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import Hapi from '@hapi/hapi'
+import inert from '@hapi/inert';
 // import { server } from '@hapi/hapi';
 import routes, { route } from './routes';
 import { db } from './database';
@@ -18,7 +19,8 @@ const start = async () => {
         port: 8080,
         host: '0.0.0.0',
     });
-
+    await server.register(inert);
+    
     routes.forEach(route => server.route(route));
 
     db.connect();

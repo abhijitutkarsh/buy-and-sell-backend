@@ -12,6 +12,8 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _hapi = _interopRequireDefault(require("@hapi/hapi"));
 
+var _inert = _interopRequireDefault(require("@hapi/inert"));
+
 var _routes = _interopRequireWildcard(require("./routes"));
 
 var _database = require("./database");
@@ -41,20 +43,23 @@ var start = /*#__PURE__*/function () {
               port: 8080,
               host: '0.0.0.0'
             });
+            _context.next = 3;
+            return server.register(_inert["default"]);
 
+          case 3:
             _routes["default"].forEach(function (route) {
               return server.route(route);
             });
 
             _database.db.connect();
 
-            _context.next = 5;
+            _context.next = 7;
             return server.start();
 
-          case 5:
+          case 7:
             console.log("Server is listening on ".concat(server.info.uri));
 
-          case 6:
+          case 8:
           case "end":
             return _context.stop();
         }
